@@ -9,7 +9,7 @@
 
 import Search from './models/Search';
 import * as searchView from './views/searchViews';
-import {elements} from './views/base';
+import {elements, renderLoader, clearLoader} from './views/base';
 /****Global State of the app
 |
 |* - Search object
@@ -30,11 +30,15 @@ const controlSearch = async () => {
 		}
 	//3) Prepare UI for the results
 		searchView.clearInput();
+		searchView.clearResults();
+		renderLoader(elements.searchResult);
 	//4) Search for recipe
 		await state.search.getResults();
 
 	//5) Render results on UI
+	clearLoader();
 	searchView.renderResults(state.search.result);
+
 };
 
 
@@ -44,7 +48,16 @@ elements.searchForm.addEventListener('submit', e => {
 });
 
 
-
+//event delegation is used for event handlers on things that do not exist yet.
+elements.searchResultsPages.addEventListener('click', e => {
+	const btn = e.target.closest('.btn-inline');
+	if (btn){
+		const goToPage = parseInt(btn.dataset.goto, 10);  //10 means base 10 which is 0-9
+		searchView.clearResults();
+		searchView.renderResults(state.search.result, goToPage);
+		console.log(goToPage);
+	};
+})
 
 // const getResultsPromise = new Promise(query, function(resolve, reject) {
 	
