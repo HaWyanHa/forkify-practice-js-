@@ -26,7 +26,7 @@ const limitRecipeTitle = (title, limit = 17) => {
 		title.split(' ').reduce((accumulator, currentValue) => {
 			if (accumulator + currentValue.length <= limit) {
 				newTitle.push(currentValue);
-				console.log(newTitle);
+				//console.log(newTitle);
 			}
 			return accumulator + currentValue.length;
 		}, 0); // accumulator = 0
