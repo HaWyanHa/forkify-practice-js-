@@ -26,7 +26,9 @@ const state = {};  //all of our data is stored in one central place called the s
 //Search Controller
 const controlSearch = async () => {
 	//1) Get query from view
+
 		const query = searchView.getInput();
+
 		console.log(query);
 		if (query) {
 			// New search object and add to state
@@ -58,7 +60,6 @@ elements.searchForm.addEventListener('submit', e => {
 	controlSearch();
 });
 
-
 //event delegation is used for event handlers on things that do not exist yet.
 elements.searchResultsPages.addEventListener('click', e => {
 	const btn = e.target.closest('.btn-inline');
@@ -84,12 +85,11 @@ const controlRecipe = async () => {
 		//Create new recipe object
 		state.recipe = new Recipe(id);
 
-
 		try {
 
-			//Get recipe data
+			//Get recipe data and parse ingredients
 			await state.recipe.getRecipe();
-
+			state.recipe.parseIngredients();
 			//Calculate servings and time
 			state.recipe.calcTime()
 			state.recipe.calcServings();
