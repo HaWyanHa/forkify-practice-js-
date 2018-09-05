@@ -10,6 +10,8 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import * as searchView from './views/searchViews';
+import * as recipeView from './views/recipeViews';
+
 import {elements, renderLoader, clearLoader} from './views/base';
 /****Global State of the app
 |
@@ -49,7 +51,7 @@ const controlSearch = async () => {
 			searchView.renderResults(state.search.result);
 
 		} catch (error){
-			alert('something went wrong');
+			alert('something went in index');
 			clearLoader();
 		}
 };
@@ -81,6 +83,12 @@ const controlRecipe = async () => {
 
 	if (id) {
 		//Prepare UI for changes
+		recipeView.clearRecipe();
+		renderLoader(elements.recipe);
+
+		//Highlight selected search item
+		if (state.search) searchView.highlightSelected(id);
+
 
 		//Create new recipe object
 		state.recipe = new Recipe(id);
@@ -90,10 +98,17 @@ const controlRecipe = async () => {
 			//Get recipe data and parse ingredients
 			await state.recipe.getRecipe();
 			state.recipe.parseIngredients();
+			
+
 			//Calculate servings and time
 			state.recipe.calcTime()
 			state.recipe.calcServings();
+			
+
 			//Render recipe
+			clearLoader();
+			recipeView.renderRecipe(state.recipe);
+			
 			console.log(state.recipe);
 
 		} catch (error) {

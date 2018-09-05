@@ -21,7 +21,7 @@ export default class Recipe {
 			//console.log(res);
 		} catch (error) {
 			console.log(error);
-			alert('somthing went wrong');
+			alert('somthing went wrong in recipe');
 		}
 	}
 
@@ -40,6 +40,8 @@ export default class Recipe {
 
 		const unitLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
 		const unitShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
+		const units = [...unitShort, 'kg', 'g'];
+
 
 		const newIngredients = this.ingredients.map(el => {
 			//1) Uniform units
@@ -52,7 +54,7 @@ export default class Recipe {
 			ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
 			//Parse ingredients into count, unit and ingedient
 			const arrIng = ingredient.split(' ');
-			const unitIndex = arrIng.findIndex(el2 => unitShort.includes(el2));
+			const unitIndex = arrIng.findIndex(el2 => units.includes(el2));  //originally was unitShort
 
 			let objIng;
 			if (unitIndex > -1) {
@@ -71,7 +73,7 @@ export default class Recipe {
 					count,
 					unit: arrIng[unitIndex],
 					ingredient: arrIng.slice(unitIndex + 1).join(' ')
-				}
+				};
 
 
 			} else if (parseInt(arrIng[0]), 10) {
@@ -95,6 +97,19 @@ export default class Recipe {
 		});
 		this.ingredients = newIngredients;
 	}
+
+	updateServings (type) {
+		//Servings
+		const newServings = type === 'dec' ? this.servings - 1: this.servings + 1;
+		//Ingredients
+		this.ingredients.forEach(ing => {
+			ing.count = ing.count * (newServings / this.servings);
+		});
+
+		this.servings =newServings;
+	}
+
+
 }
 
 
