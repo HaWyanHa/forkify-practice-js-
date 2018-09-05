@@ -9,6 +9,7 @@
 
 import Search from './models/Search';
 import Recipe from './models/Recipe';
+import List from './models/List';
 import * as searchView from './views/searchViews';
 import * as recipeView from './views/recipeViews';
 
@@ -139,6 +140,13 @@ elements.recipe.addEventListener('click', e => {
 		recipeView.updateServingsIngredients(state.recipe);
 	}
 }); 
+
+
+window.l = new List()
+
+
+
+
 
 // const r = new Recipe(47746)
 // r.getRecipe();
