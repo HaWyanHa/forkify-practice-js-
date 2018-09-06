@@ -30,7 +30,7 @@ accumulator = 9 / accumulator + currentValue.length = 15 /newTitle = ['pasta', w
 accumulator = 15 / accumulator + currentValue.length = 18 /newTitle = ['pasta', with', 'tomato']
 accumulator = 18 / accumulator + currentValue.length = 24 /newTitle = ['pasta', with', 'tomato']
 */
-const limitRecipeTitle = (title, limit = 17) => {
+export const limitRecipeTitle = (title, limit = 17) => {
 	const newTitle = [];
 	if (title.length > limit) {
 		title.split(' ').reduce((accumulator, currentValue) => {
